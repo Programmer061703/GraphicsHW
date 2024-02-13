@@ -5,6 +5,7 @@
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
+#include <iostream>
 #endif
 
 #define XDIM 800
@@ -29,9 +30,14 @@ void init(){
 void drawExplosion(float centerX, float centerY, float size, float colorR, float colorG, float colorB) {
     glColor3f(colorR, colorG, colorB);
     for (int j = 0; j < 360; j += 15) {
-        float angle = static_cast<float>(j) * (M_PI / 180.0f);
-        float x2 = centerX + size * cos(angle);
-        float y2 = centerY + size * sin(angle);
+        // float angle = static_cast<float>(j) * (M_PI / 180.0f);
+        // float x2 = centerX + size * cos(angle);
+        // float y2 = centerY + size * sin(angle);
+        float randomFactor = 0.8f + static_cast<float>(rand()) / (RAND_MAX / 0.4f);
+    float lineLength = size * randomFactor;
+        float angle = static_cast<float>(j) * (rand() % 360);
+        float x2 = centerX + lineLength * cos(angle);
+        float y2 = centerY + lineLength * sin(angle);
         glBegin(GL_LINES);
         glVertex2f(centerX, centerY);
         glVertex2f(x2, y2);
