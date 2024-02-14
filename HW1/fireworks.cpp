@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #ifdef MAC
 #include <GLUT/glut.h>
 #else
@@ -26,15 +27,20 @@ void init(){
       gluOrtho2D(0, 800, 0, 600);
 }
 
+
 // Function to draw an exploded firework
 void drawExplosion(float centerX, float centerY, float size, float colorR, float colorG, float colorB) {
     glColor3f(colorR, colorG, colorB);
     for (int j = 0; j < 360; j += 15) {
+
+        //Uncomment to make it look like a circle
         // float angle = static_cast<float>(j) * (M_PI / 180.0f);
         // float x2 = centerX + size * cos(angle);
         // float y2 = centerY + size * sin(angle);
+
+        //Uncomment to make it look like random
         float randomFactor = 0.8f + static_cast<float>(rand()) / (RAND_MAX / 0.4f);
-    float lineLength = size * randomFactor;
+        float lineLength = size * randomFactor;
         float angle = static_cast<float>(j) * (rand() % 360);
         float x2 = centerX + lineLength * cos(angle);
         float y2 = centerY + lineLength * sin(angle);
@@ -42,6 +48,13 @@ void drawExplosion(float centerX, float centerY, float size, float colorR, float
         glVertex2f(centerX, centerY);
         glVertex2f(x2, y2);
         glEnd();
+    }
+}
+
+void keyboard(unsigned char key, int x, int y) {
+    if (key == 'r') {
+       glutPostRedisplay();
+        
     }
 }
 
@@ -58,7 +71,7 @@ void display() {
     fireworks[i].centerY = rand() % YDIM;
     }
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < displayCount; i++) {
         drawExplosion(fireworks[i].centerX, fireworks[i].centerY, fireworks[i].size,
                        fireworks[i].colorR, fireworks[i].colorG, fireworks[i].colorB);
     }
@@ -74,6 +87,7 @@ int main(int argc, char** argv) {
     glutCreateWindow("Fireworks Display");
     init();
     glutDisplayFunc(display);
+    glutKeyboardFunc(keyboard);
 
     glutMainLoop();
 
