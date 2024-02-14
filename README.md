@@ -6,7 +6,7 @@ Using OpenGL to render images
 1. Clone the prodject
 2. Install Make
   - For Windows
-      - if you have choco on windows type the following "choco install make"
+      - if you have choco on Windows type the following "choco install make"
       - if you don't have choco go to this website and install for windows "https://gnuwin32.sourceforge.net/packages/make.htm"
   - For Debian/Ubuntu
       - sudo apt install make
