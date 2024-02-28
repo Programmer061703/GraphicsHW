@@ -20,7 +20,7 @@ float lineEnd[2] = {-1.0f, -1.0f}; // Initialize to an off-screen position
 float cubePos[3] = {0.0f, 0.0f, -7.0f}; // Initial position of the cube
 
 // Global index for the current target point in the linePoints vector
-size_t currentPointIndex =+ 2;
+size_t currentPointIndex = 0;
 
 
 // Structure to represent a 2D point
@@ -42,54 +42,50 @@ bool isDrawing = false; // Flag to track if we're currently drawing
 void initGL() {
     // Set "clearing" or background color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
-    glEnable(GL_DEPTH_TEST); // Enable depth testing for z-culling
+    
 }
 
 void mouse(int button, int state, int x, int y) {
-    // Convert screen coordinates to world coordinates
-    float worldX = (x - glutGet(GLUT_WINDOW_WIDTH) / 2.0f) / (glutGet(GLUT_WINDOW_WIDTH) / 2.0f);
-    float worldY = -(y - glutGet(GLUT_WINDOW_HEIGHT) / 2.0f) / (glutGet(GLUT_WINDOW_HEIGHT) / 2.0f);
+    // Get the current window dimensions
+    int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
+    int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-    if (button == GLUT_LEFT_BUTTON) {
-        if (state == GLUT_DOWN) {
-            // Start drawing
-            isDrawing = true;
-            linePoints.clear(); // Clear previous line points
-            linePoints.push_back({worldX, worldY}); // Start a new line
-            // Reset animation index when starting to draw a new line
-            currentPointIndex = 0;
-        } else if (state == GLUT_UP) {
-            // Stop drawing
-            isDrawing = false;
-            // Optionally, reset the cube position to the start of the line
-            if (!linePoints.empty()) {
-                cubePos[0] = linePoints.front().x;
-                cubePos[1] = linePoints.front().y;
-                // Start the cube animation from the first point
-                currentPointIndex = 1; // Set to 1 to move towards the second point next
-            }
-        }
+    // Adjust conversion to consider the current window size and correct aspect ratio
+    float worldX = (x - windowWidth / 2.0f) * 2.0f / windowWidth;
+    float worldY = -(y - windowHeight / 2.0f) * 2.0f / windowHeight;
+
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        linePoints.clear(); // Clear previous points
+        linePoints.push_back({worldX, worldY}); // Start a new line
+        isDrawing = true;
+    } else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+        isDrawing = false;
+        currentPointIndex = 0;
     }
 }
 
-
-
 void mouseMotion(int x, int y) {
     if (isDrawing) {
-        // Convert screen coordinates to world coordinates
-        float worldX = (x - 320.0f) / 320.0f;
-        float worldY = -(y - 240.0f) / 240.0f;
+        // Get the current window dimensions
+        int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
+        int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
+
+        // Adjust conversion to consider the current window size and correct aspect ratio
+        float worldX = (x - windowWidth / 2.0f) * 2.0f / windowWidth;
+        float worldY = -(y - windowHeight / 2.0f) * 2.0f / windowHeight;
+
         linePoints.push_back({worldX, worldY});
         glutPostRedisplay(); // Request display update
     }
 }
 
+
 void drawLine() {
     if (!linePoints.empty()) {
-        glBegin(GL_LINE_STRIP); // GL_LINE_STRIP connects each point with a line
-        glColor3f(1.0f, 1.0f, 1.0f); // White color for the line
-        for (const Point& pt : linePoints) {
-            glVertex2f(pt.x, pt.y);
+        glBegin(GL_LINE_STRIP);
+        glColor3f(1.0f, 1.0f, 1.0f); // White
+        for (size_t i = 0; i < linePoints.size(); i++) {
+            glVertex3f(linePoints[i].x, linePoints[i].y, -7.0f);
         }
         glEnd();
     }
@@ -200,7 +196,7 @@ void timer(int value) {
     }
 
     // Continue the animation
-    glutTimerFunc(100, timer, 0); // Adjust the timeout to control speed
+    glutTimerFunc(1, timer, 0); // Adjust the timeout to control speed
 }
 
 // Main function: GLUT runs as a console application starting at main()
