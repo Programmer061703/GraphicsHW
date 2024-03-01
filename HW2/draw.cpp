@@ -50,9 +50,9 @@ void mouse(int button, int state, int x, int y) {
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-    // Adjust conversion to consider the current window size and correct aspect ratio
-    float worldX = (x - windowWidth / 2.0f) * 2.0f / windowWidth;
-    float worldY = -(y - windowHeight / 2.0f) * 2.0f / windowHeight;
+    // Convert mouse coordinates to OpenGL world coordinates
+    float worldX = (x / (float)windowWidth) * 2.0f - 1.0f;
+    float worldY = 1.0f - (y / (float)windowHeight) * 2.0f; // Invert Y
 
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         linePoints.clear(); // Clear previous points
@@ -70,14 +70,15 @@ void mouseMotion(int x, int y) {
         int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
         int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-        // Adjust conversion to consider the current window size and correct aspect ratio
-        float worldX = (x - windowWidth / 2.0f) * 2.0f / windowWidth;
-        float worldY = -(y - windowHeight / 2.0f) * 2.0f / windowHeight;
+        // Convert mouse coordinates to OpenGL world coordinates
+        float worldX = (x / (float)windowWidth) * 2.0f - 1.0f;
+        float worldY = 1.0f - (y / (float)windowHeight) * 2.0f; // Invert Y
 
         linePoints.push_back({worldX, worldY});
         glutPostRedisplay(); // Request display update
     }
 }
+
 
 
 void drawLine() {
