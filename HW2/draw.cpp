@@ -32,16 +32,9 @@ struct Point {
 std::vector<Point> linePoints;
 
 bool isDrawing = false; // Flag to track if we're currently drawing
-
-
-
-
-
-
-// Initialize OpenGL Graphics
-void initGL() {
-    // Set "clearing" or background color
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+void init() {
+   
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);// Set the background color to black 
     
 }
 
@@ -81,9 +74,6 @@ void mouseMotion(int x, int y) {
         glutPostRedisplay(); 
     }
 }
-
-
-
 
 
 void drawLine() {
@@ -211,7 +201,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize(640, 480); 
     glutCreateWindow("Line Cube Follow"); 
 
-    initGL(); 
+    init(); 
     glutDisplayFunc(display); 
     glutReshapeFunc(reshape); 
     glutMouseFunc(mouse);
