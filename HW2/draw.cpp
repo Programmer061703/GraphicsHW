@@ -50,7 +50,7 @@ void mouse(int button, int state, int x, int y) {
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-    // Convert mouse coordinates to OpenGL world coordinates
+    
     float worldX = (x / (float)windowWidth) * 2.0f - 1.0f;
     float worldY = 1.0f - (y / (float)windowHeight) * 2.0f; // Invert Y
 
@@ -68,17 +68,17 @@ void mouseMotion(int x, int y) {
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-    // Convert screen coordinates to normalized device coordinates (NDC)
+    // Convert mouse coordinates to OpenGL world coordinates
     float ndcX = (x / (float)windowWidth) * 2.0f - 1.0f;
     float ndcY = 1.0f - (y / (float)windowHeight) * 2.0f;
 
-    // Assuming a simple linear scaling for demonstration purposes
+    // Convert from NDC to world coordinates
     float worldX = ndcX * (windowWidth / 100.0f);
     float worldY = ndcY * (windowHeight / 100.0f);
 
     if (isDrawing) {
         linePoints.push_back({worldX, worldY});
-        glutPostRedisplay(); // Request display update
+        glutPostRedisplay(); 
     }
 }
 
@@ -150,11 +150,10 @@ void drawCube() {
     glEnd(); // End of drawing color-cube
 }
 
-// Handler for window-repaint event. Called back when the window first appears and
-// whenever the window needs to be re-painted.
+// Called when the window needs to be redrawn
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color and depth buffers
-    glMatrixMode(GL_MODELVIEW); // To operate on model-view matrix
+    glMatrixMode(GL_MODELVIEW); 
 
     // Reset transformations and move to starting position of the cube
     glLoadIdentity();
@@ -166,7 +165,7 @@ void display() {
     // Draw the cube at the first point of the line
     glPushMatrix();
     glTranslatef(cubePos[0], cubePos[1], cubePos[2]);
-    glScalef(0.5f, 0.5f, 0.5f); // Adjust cube size as necessary
+    glScalef(0.5f, 0.5f, 0.5f); // Scale down the cube to half its size
     drawCube();
     glPopMatrix();
 
@@ -185,9 +184,9 @@ void reshape(GLsizei width, GLsizei height) {
     glViewport(0, 0, width, height);
 
     // Set the aspect ratio of the clipping volume to match the viewport
-    glMatrixMode(GL_PROJECTION); // To operate on the Projection matrix
-    glLoadIdentity(); // Reset
-    gluPerspective(45.0f, aspect, 0.1f, 100.0f); // Enable perspective projection with fov, aspect, zNear and zFar
+    glMatrixMode(GL_PROJECTION); 
+    glLoadIdentity(); 
+    gluPerspective(45.0f, aspect, 0.1f, 100.0f); 
 }
 void timer(int value) {
     if (!linePoints.empty() && currentPointIndex < linePoints.size()) {
@@ -205,22 +204,22 @@ void timer(int value) {
     glutTimerFunc(1, timer, 0); // Adjust the timeout to control speed
 }
 
-// Main function: GLUT runs as a console application starting at main()
+
 int main(int argc, char** argv) {
-    glutInit(&argc, argv); // Initialize GLUT first
-    glutInitDisplayMode(GLUT_DOUBLE); // Enable double buffered mode
-    glutInitWindowSize(640, 480); // Set the window's initial width & height
-    glutCreateWindow("OpenGL Setup Test"); // Create window with the given title
+    glutInit(&argc, argv); 
+    glutInitDisplayMode(GLUT_DOUBLE); 
+    glutInitWindowSize(640, 480); 
+    glutCreateWindow("Line Cube Follow"); 
 
-    initGL(); // Our own OpenGL initialization
-    glutDisplayFunc(display); // Register callback handler for window re-paint event
-    glutReshapeFunc(reshape); // Register callback handler for window re-size event
+    initGL(); 
+    glutDisplayFunc(display); 
+    glutReshapeFunc(reshape); 
     glutMouseFunc(mouse);
-    glutMotionFunc(mouseMotion); // Register mouse
+    glutMotionFunc(mouseMotion); 
 
-    glutTimerFunc(0, timer, 0); // Now it's safe to set the timer callback
+    glutTimerFunc(0, timer, 0); 
 
-    glutMainLoop(); // Enter the infinitely event-processing loop
+    glutMainLoop(); 
     return 0;
 }
 
