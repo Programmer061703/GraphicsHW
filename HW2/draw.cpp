@@ -44,8 +44,13 @@ void mouse(int button, int state, int x, int y) {
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
     
-    float worldX = (x / (float)windowWidth) * 2.0f - 1.0f;
-    float worldY = 1.0f - (y / (float)windowHeight) * 2.0f; // Invert Y
+    // Convert mouse coordinates to OpenGL world coordinates
+    float ndcX = (x / (float)windowWidth) * 2.0f - 1.0f;
+    float ndcY = 1.0f - (y / (float)windowHeight) * 2.0f;
+
+    // Convert from NDC to world coordinates
+    float worldX = ndcX * (windowWidth / 100.0f);
+    float worldY = ndcY * (windowHeight / 100.0f);
 
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         linePoints.clear(); // Clear previous points
