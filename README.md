@@ -11,5 +11,6 @@ Using OpenGL to render images
   - For Debian/Ubuntu
       - sudo apt install make
 4. Open the Directory of the Render you would like to run
-5. In terminal type "make "name in front of the .cpp" ex "make fireworks" will compile the fireworks.cpp
-6. Enjoy the render
+5. In terminal type make "name in front of the .cpp" Ex: `make fireworks` will compile the fireworks.cpp in HW1
+6. Execute the created Executable Ex: `./fireworks`
+7. Enjoy the render
