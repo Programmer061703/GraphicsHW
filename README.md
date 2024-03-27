@@ -3,7 +3,7 @@
 Using OpenGL to render images
 
 ## TO RUN
-1. Clone the prodject
+1. Clone the project
 2. Install Make
   - For Windows
       - If you have choco on Windows type the following `choco install make`
