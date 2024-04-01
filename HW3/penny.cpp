@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
    printf(" x y z rotate \n X Y Z rotate opposite\n"); 
    printf(" n = Color Display \n d = Depth Display \n p = Phong Display \n"); 
    // Specify callback function 
-   glutDisplayFunc(colorDisplay); 
+   glutDisplayFunc(phongDisplay); 
    glutKeyboardFunc(keyboard); 
    glutMainLoop(); 
    return 0; 
