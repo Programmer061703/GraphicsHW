@@ -216,7 +216,7 @@ void colorDisplay()
    glRotatef(xangle, 1.0, 0.0, 0.0); 
    glRotatef(yangle, 0.0, 1.0, 0.0); 
    glRotatef(zangle, 0.0, 0.0, 1.0); 
-   glDisable(GL_LIGHTING); // no lights, only for phong shading 
+   glDisable(GL_LIGHTING); 
  
    // Draw the surface 
    for (int i = 0; i < SIZE; i++) 
@@ -224,8 +224,8 @@ void colorDisplay()
       for (int j = 0; j < SIZE; j++) 
       { 
          glBegin(GL_POLYGON); 
-         float pennyHeight = depthData[i][j] / 20; // make the penny pretty short 
-         glColor3f(red[i][j] / 255.0, green[i][j] / 255.0, blue[i][j] / 255.0); // add the colors of the penny on top 
+         float pennyHeight = depthData[i][j] / 20; 
+         glColor3f(red[i][j] / 255.0, green[i][j] / 255.0, blue[i][j] / 255.0); 
          glVertex3f(i, j, pennyHeight); 
          glVertex3f(i+1, j, pennyHeight); 
          glVertex3f(i+1, j+1, pennyHeight); 
@@ -337,36 +337,7 @@ void keyboard(unsigned char key, int x, int y)
    glutPostRedisplay();
 }
 
-//---------------------------------------
-// Mouse callback for OpenGL
-//---------------------------------------
-void mouse(int button, int state, int x, int y)
-{
-   // Handle mouse down
-   static int xdown, ydown;
-   if (state == GLUT_DOWN)
-   {
-      xdown = x;
-      ydown = y;
-   }
 
-   // Handle ROTATE
-   if ((mode == ROTATE) && (state == GLUT_UP))
-   {
-      xangle += (y - ydown);
-      yangle -= (x - xdown);
-      zangle = 0;
-      glutPostRedisplay();
-   }
-
-   // Handle TRANSLATE
-   if ((mode == TRANSLATE) && (state == GLUT_UP))
-   {
-      xpos += (x - xdown);
-      ypos -= (y - ydown);
-      glutPostRedisplay();
-   }
-}
 
 
 
@@ -392,7 +363,6 @@ int main(int argc, char *argv[])
    // Specify callback function 
    glutDisplayFunc(colorDisplay); 
    glutKeyboardFunc(keyboard); 
-   glutMouseFunc(mouse); 
    glutMainLoop(); 
    return 0; 
 } 
