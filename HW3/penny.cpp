@@ -87,12 +87,12 @@ void depthDisplay()
 
 
 // Draw the surface 
-   for (int i = 0; i < SIZE; i+=5) 
+   for (int i = 0; i < SIZE; i+=3) 
    { 
-      for (int j = 0; j < SIZE; j+=5) 
+      for (int j = 0; j < SIZE; j+=3) 
       { 
          glBegin(GL_LINE_LOOP); 
-         float pennyHeight = depthData[i][j] / 20; 
+         float pennyHeight = depthData[i][j] / 15; 
          glVertex3f(i, j, pennyHeight); 
          glVertex3f(i+1, j, pennyHeight); 
          glVertex3f(i+1, j+1, pennyHeight); 
