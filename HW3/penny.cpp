@@ -280,18 +280,8 @@ void keyboard(unsigned char key, int x, int y)
 {
   
 
-   // Determine if we are in ROTATE or TRANSLATE mode
-   if ((key == 'r') || (key == 'R'))
-   {
-      printf("Type x y z to decrease or X Y Z to increase ROTATION angles.\n");
-      mode = ROTATE;
-   }
-   else if ((key == 't') || (key == 'T'))
-   {
-      printf
-	 ("Type x y z to decrease or X Y Z to increase TRANSLATION distance.\n");
-      mode = TRANSLATE;
-   }
+   
+   
 
    // Handle ROTATE
    if (mode == ROTATE)
@@ -310,22 +300,6 @@ void keyboard(unsigned char key, int x, int y)
 	 zangle += 5;
    }
 
-   // Handle TRANSLATE
-   if (mode == TRANSLATE)
-   {
-      if (key == 'x')
-	 xpos -= 5;
-      else if (key == 'y')
-	 ypos -= 5;
-      else if (key == 'z')
-	 zpos -= 5;
-      else if (key == 'X')
-	 xpos += 5;
-      else if (key == 'Y')
-	 ypos += 5;
-      else if (key == 'Z')
-	 zpos += 5;
-   }
    if (key == 'd')
       glutDisplayFunc(depthDisplay); 
    if (key == 'n')
@@ -358,8 +332,8 @@ int main(int argc, char *argv[])
    init(); 
    readDepthFile("penny-depth.txt"); 
    readColorFile("penny-image.txt"); 
-   printf("Type r to enter ROTATE mode or t to enter TRANSLATE mode.\n"); 
-   printf("Type n to see the color display, type d to see the wireframe display, or type m to see the phong shading display.\n"); 
+   printf(" x y z rotate \n X Y Z rotate opposite\n"); 
+   printf(" n = Color Display \n d = Depth Display \n p = Phong Display \n"); 
    // Specify callback function 
    glutDisplayFunc(colorDisplay); 
    glutKeyboardFunc(keyboard); 
