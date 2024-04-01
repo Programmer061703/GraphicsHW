@@ -91,8 +91,8 @@ void depthDisplay()
    { 
       for (int j = 0; j < SIZE; j+=3) 
       { 
+         float pennyHeight = depthData[i][j] / 15;
          glBegin(GL_LINE_LOOP); 
-         float pennyHeight = depthData[i][j] / 15; 
          glVertex3f(i, j, pennyHeight); 
          glVertex3f(i+1, j, pennyHeight); 
          glVertex3f(i+1, j+1, pennyHeight); 
@@ -120,7 +120,7 @@ void readColorFile(const string filename)
       } 
    } 
  
-   //Needed or else does not display
+   
    for (int i = 0; i < 500; i++) 
    { 
       for (int j = 0; j < 250; j++) 
@@ -151,7 +151,7 @@ void init()
    glOrtho(0, radius, 0, radius, -radius, radius); 
    glEnable(GL_DEPTH_TEST); 
  
-   // Initialize smooth shading 
+   
    glShadeModel(GL_SMOOTH); 
 } 
 
