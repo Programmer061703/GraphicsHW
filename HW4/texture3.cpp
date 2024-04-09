@@ -32,6 +32,8 @@ int size1;
 int size2;
 int start1;
 int start2;
+ int xdim, ydim;
+ unsigned char *texture;
 
 
 void readFile(const string filename){
@@ -178,9 +180,9 @@ void init()
    glEnable(GL_DEPTH_TEST);
 
    // Init texture
-   int xdim, ydim;
-   unsigned char *texture;
-   init_texture((char *)"textures/brick.jpg", texture, xdim, ydim);
+  
+   
+   
    glEnable(GL_TEXTURE_2D);
    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -194,6 +196,9 @@ void init()
 //---------------------------------------
 void display()
 {
+
+  
+   
    // Incrementally rotate objects
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glMatrixMode(GL_MODELVIEW);
@@ -202,6 +207,9 @@ void display()
    glRotatef(xangle, 1.0, 0.0, 0.0);
    glRotatef(yangle, 0.0, 1.0, 0.0);
    glRotatef(zangle, 0.0, 0.0, 1.0);
+   init_texture((char *)"textures/brick.jpg", texture, xdim, ydim);
+   init_texture((char *)"textures/rock.jpg", texture, xdim, ydim);
+   init_texture((char *)"textures/wood.jpg", texture, xdim, ydim);
 
    // Draw objects
    block(-1, -1, -1, 1, 1, 1);
