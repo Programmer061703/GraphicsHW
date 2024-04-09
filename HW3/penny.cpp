@@ -57,7 +57,7 @@ void readDepthFile(const string filename)
    { 
       for (int j = 0; j < 500; j++) 
       { 
-         din >> depthData[j][i]; 
+         din >> depthData[i][j]; 
       } 
    } 
  
