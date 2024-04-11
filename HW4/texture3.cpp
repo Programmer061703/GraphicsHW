@@ -32,8 +32,14 @@ int size1;
 int size2;
 int start1;
 int start2;
- int xdim, ydim;
- unsigned char *texture;
+int xdim, ydim;
+unsigned char *texture1;
+unsigned char *texture2;
+unsigned char *texture3;
+unsigned char *saul;
+unsigned char *grass;
+//int grass_xdim, grass_ydim; 
+#define SIZE 10
 
 
 void readFile(const string filename){
@@ -41,12 +47,15 @@ void readFile(const string filename){
       string line;
       din >> size1 >> size2;
       din >> start1 >> start2;
-      
+   
+
+      din.ignore(); 
       for(int i = 0; i < size1; i++){
          for(int j = 0; j < size2; j++){
            char ch;
            din.get(ch);
              maze[i][j] = ch; 
+             
          }
          din.ignore();
       }
@@ -180,16 +189,24 @@ void init()
    glEnable(GL_DEPTH_TEST);
 
    // Init texture
-  
-   
    
    glEnable(GL_TEXTURE_2D);
-   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+   init_texture((char *)"textures/brick.jpg", texture1, xdim, ydim);
+   init_texture((char *)"textures/rock.jpg", texture2, xdim, ydim);
+   init_texture((char *)"textures/wood.jpg", texture3, xdim, ydim);
+   init_texture((char *)"textures/saul.jpg", saul, xdim, ydim);
+   init_texture((char *)"textures/grass.jpg", grass, xdim, ydim);
+   //init_texture((char *)"textures/grass.jpg", grass, grass_xdim, grass_ydim);
+   
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
+
+
+
+
 
 //---------------------------------------
 // Display callback for OpenGL
@@ -207,13 +224,57 @@ void display()
    glRotatef(xangle, 1.0, 0.0, 0.0);
    glRotatef(yangle, 0.0, 1.0, 0.0);
    glRotatef(zangle, 0.0, 0.0, 1.0);
-   init_texture((char *)"textures/brick.jpg", texture, xdim, ydim);
-   init_texture((char *)"textures/rock.jpg", texture, xdim, ydim);
-   init_texture((char *)"textures/wood.jpg", texture, xdim, ydim);
-
+   
+   
+  
    // Draw objects
-   block(-1, -1, -1, 1, 1, 1);
-   glFlush();
+   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, grass);
+   block(0, 0, 0, 10, 10, 0);
+   
+   
+
+   for (int i = 0; i < size1; i++){
+      for (int j = 0; j < size2; j++){
+         float size = 0.5; // Size of each block
+         float offset = size * 0.25; // Offset to keep the smaller player block centered
+         float xbase = j * size;
+         float ybase = i * size;
+
+         
+         //grass
+
+
+         if(i == start1 && j == start2){
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, saul);
+            block(xbase+offset, ybase+offset, 0, xbase + offset / size, ybase + offset / size, offset / size);
+         }
+         //brick
+         if(maze[i][j]== 'b'){
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture1);
+            block(xbase, ybase, 0, xbase + size, ybase + size, size);
+         }
+         //rock
+         if(maze[i][j]== 'r'){
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture2);
+            block(xbase, ybase, 0, xbase + size, ybase + size, size);
+               
+         }
+         //wood
+         if(maze[i][j]== 'w'){
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture3);
+            block(xbase, ybase, 0, xbase + size, ybase + size, size);
+
+         }
+
+         
+
+
+         
+         
+      }
+   }
+  
+    glFlush();
 }
 
 //---------------------------------------
@@ -255,17 +316,17 @@ void keyboard(unsigned char key, int x, int y)
    if (mode == TRANSLATE)
    {
       if (key == 'x')
-	 xpos -= 5;
+	 xpos -= 15;
       else if (key == 'y')
-	 ypos -= 5;
+	 ypos -= 15;
       else if (key == 'z')
-	 zpos -= 5;
+	 zpos -= 15;
       else if (key == 'X')
-	 xpos += 5;
+	 xpos += 15;
       else if (key == 'Y')
-	 ypos += 5;
+	 ypos += 15;
       else if (key == 'Z')
-	 zpos += 5;
+	 zpos += 15;
       glutPostRedisplay();
    }
 }
@@ -309,6 +370,7 @@ void mouse(int button, int state, int x, int y)
 //---------------------------------------
 int main(int argc, char *argv[])
 {
+   readFile("maze.txt");
    // Create OpenGL window
    glutInit(&argc, argv);
    glutInitWindowSize(500, 500);
