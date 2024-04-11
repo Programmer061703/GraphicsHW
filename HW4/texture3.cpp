@@ -229,7 +229,7 @@ void display()
   
    // Draw objects
    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, grass);
-   block(0, 0, 0, 10, 10, 0);
+   block(0, 0, 0, 5, 5, 0);
    
    
 
