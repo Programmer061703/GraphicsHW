@@ -246,7 +246,7 @@ void display()
 
          if(i == start1 && j == start2){
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, saul);
-            block(xbase+offset, ybase+offset, 0, xbase + offset / size, ybase + offset / size, offset / size);
+            block(xbase+offset, ybase+offset, offset, xbase + offset / size, ybase + offset / size, offset / size);
          }
          //brick
          if(maze[i][j]== 'b'){
