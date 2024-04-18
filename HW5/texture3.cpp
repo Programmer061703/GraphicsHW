@@ -454,7 +454,7 @@ int main(int argc, char *argv[])
    glutDisplayFunc(display);
    glutKeyboardFunc(keyboard);
    glutMouseFunc(mouse);
-    init();
+   init();
    
     printf("Keyboard commands:\n");
     printf("   't' or 'T' - go to translate mode\n");
