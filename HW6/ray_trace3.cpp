@@ -142,7 +142,7 @@ void ray_trace()
          // Calculate Phong shade
          if (mode == "phong")
          {
-             ColorRGB total;
+            ColorRGB total;
             total.set(0,0,0);
             for (int i = 0; i < lightcount; i++){
             // Check see if in shadow 
@@ -199,7 +199,7 @@ void init()
 
     // Rotating sphere
     center.set(position / 1.5, 0, 0);
-    sphere[1].set(center, stationary, position /4);  // This motion vector needs adaptation in timer
+    sphere[1].set(center, stationary, position /4);  
     color[1].set(0, 0, 255);  // Blue color
 
  
@@ -290,7 +290,7 @@ void timer(int value)
     // Re-render the scene
     ray_trace();
     glutPostRedisplay();
-    glutTimerFunc(33, timer, 0);  // approximately 30 updates per second
+    glutTimerFunc(33, timer, 0);  
 }
 
 
