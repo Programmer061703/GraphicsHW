@@ -144,7 +144,7 @@ void ray_trace()
          {
             ColorRGB total;
             total.set(0,0,0);
-            for (int i = 0; i < lightcount; i++){
+         for (int i = 0; i < lightcount; i++){
             // Check see if in shadow 
             if (in_shadow(closest_p, light_dir[i], closest, sphere, SPHERES))
                shader.SetObject(color[closest], 0.4, 0.0, 0.0, 1);
@@ -184,7 +184,6 @@ void init()
 
     // Define two spheres: one stationary, one rotating
     Point3D center;
-
     Vector3D stationary;
     Vector3D rotating;
 
@@ -202,7 +201,7 @@ void init()
     sphere[1].set(center, stationary, position /4);  
     color[1].set(0, 0, 255);  // Blue color
 
- 
+
 
     // Initialize ray tracing
     cout << "camera: 0,0," << position << endl;
